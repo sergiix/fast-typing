@@ -48,7 +48,7 @@ export default function rootReducer(state = {}, action) {
         fullValue: 0,
         partValue: action.payload,
         duration: 0,
-        wordIndex: 0,
+        wordIndex: -1,
         countdownTimer: {
           ...state.countdownTimer,
           text: ''
