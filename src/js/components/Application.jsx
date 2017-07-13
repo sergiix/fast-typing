@@ -25,7 +25,7 @@ class Application extends Component {
         <div className="ui grid">
           <div className="row">
             <div className="wide column">
-              <div className="ui ignored big attached message">
+              <div className="ui ignored big message">
                 <Words />
               </div>
               <UserInput />

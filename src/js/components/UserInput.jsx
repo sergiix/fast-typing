@@ -18,28 +18,38 @@ class UserInput extends React.Component {
     let classes = classSet({
       ui: 1,
       fluid: 1,
-      action: 0,
       input: 1,
       big: 1,
-      error: this.props.isError
+      action: 1,
+      error: this.props.isError,
     })
 
     return (
-      <div className={classes}>
-        {this.props.isTyping
-          ? <input type="text" ref={::this.initInput} value="" autoFocus value={this.props.partValue} onChange={::this.onChange} />
-          : <input type="text" disabled="disabled" ref="input" value={this.props.waitingText} />
-        }
-        <div className="ui labeled button" tabindex="0">
-          <button className="ui button" onClick={::this.props.actions.startCountdownTimer}>Start</button>
-          <a className="ui left pointing label">
-            <UserInputStatus />
-          </a>
+      <div className="ui fluid">
+        <div className="ui fluid grid">
+          <div className="twelve wide column">
+            <div className={classes}>
+              {this.props.isTyping
+                ? <input type="text" ref={::this.initInput} value="" autoFocus value={this.props.partValue} onChange={::this.onChange} />
+                : <input type="text" disabled="disabled" ref="input" value={this.props.waitingText} />
+              }
+              <a className="ui basic button" data-tooltip="Your statistics: CPM / Errors" data-position="bottom right">
+                <UserInputStatus />
+              </a>
+            </div>
+          </div>
+          <div className="four wide column">
+            <div className="ui big fluid buttons">
+              <button className="ui button" onClick={::this.props.actions.startCountdownTimer} data-tooltip="Press for typing" data-position="top left">Start</button>
+              <div className="or"></div>
+              <button className="ui button" onClick={::this.props.actions.refreshText} data-tooltip="Refresh text" data-position="top right">
+                <i className="refresh icon"></i>
+              </button>
+            </div>
+          </div>
         </div>
-
       </div>
     )
-    //<button className="ui basic button" onClick={::this.props.actions.startCountdownTimer}>Start</button>
   }
 }
 
@@ -48,6 +58,7 @@ function mapStateToProps(state) {
     isError: state.typing.isError,
     partValue: state.typing.partValue,
     isTyping: state.typing.isTyping,
+    isFinished: state.typing.isFinished,
     isCountdownTimerStarted: state.typing.countdownTimer.started,
     countdownTimerLeft: state.typing.countdownTimer.left,
     waitingText: state.typing.countdownTimer.text

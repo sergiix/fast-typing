@@ -15,14 +15,7 @@ export default function rootReducer(state = {}, action) {
     case INIT_DICTIONARY_TEXT: {
       return {
         ...state,
-        text: action.payload,
-        index: 0,
-        fullValue: '',
-        partValue: '',
-        isCompleted: false,
-        countErrors: 0,
-        beginTime: Date.now(),
-        speed: 0
+        text: action.payload
       }
     }
 
@@ -31,7 +24,14 @@ export default function rootReducer(state = {}, action) {
         ...state,
         isStarted: true,
         isTyping: true,
-        isFinished: false
+        isFinished: false,
+        index: 0,
+        fullValue: '',
+        partValue: '',
+        isCompleted: false,
+        countErrors: 0,
+        speed: 0,
+        beginTime: Date.now()
       }
     }
 
@@ -40,7 +40,18 @@ export default function rootReducer(state = {}, action) {
         ...state,
         isStarted: false,
         isTyping: false,
-        isFinished: true
+        isFinished: true,
+        isError: false,
+        isCompleted: false,
+        fullValue: 0,
+        partValue: '',
+        duration: 0,
+        countErrors: 0,
+        speed: 0,
+        countdownTimer: {
+          ...state.countdownTimer,
+          text: ''
+        }
       }
     }
 

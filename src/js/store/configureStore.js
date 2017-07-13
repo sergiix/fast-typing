@@ -23,6 +23,8 @@ const initialState = {
     isStarted: false,
     isTyping: false,
     isFinished: true,
+    countErrors: 0,
+    speed: 0,
     countdownTimer: {
       started: false,
       ended: true,
@@ -40,12 +42,16 @@ export default function configureStore(state = initialState) {
     dictionaries: dictionariesReducer
   })
 
-  return createStore(
-    reducer,
-    state,
-    compose(
-      applyMiddleware(thunk, /*logger*/),
-      __DEV__ && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  if (__DEV__) {
+    return createStore(
+      reducer,
+      state,
+      compose(
+        applyMiddleware(thunk, /*logger*/),
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+      )
     )
-  )
+  }
+
+  return createStore(reducer, state, compose(applyMiddleware(thunk)))
 }

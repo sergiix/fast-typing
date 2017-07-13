@@ -6,7 +6,7 @@ class UserInputStatus extends Component {
   render () {
     return (
       <div>
-        <span title="Characters per minute">{this.props.speed}</span> / <span title="Errors" className="ui red">{this.props.countErrors}</span>
+        <span title="Characters per minute">{this.props.speed}</span>&nbsp;/&nbsp;<span title="Errors" className="ui red">{this.props.countErrors}</span>
       </div>
     )
   }

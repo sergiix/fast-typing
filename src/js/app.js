@@ -10,9 +10,6 @@ import * as actions from 'actions'
 
 const store = configureStore()
 
-// store.dispatch(actions.generateRandomText())
-// store.dispatch(actions.initDictionaryText())
-
 store.dispatch(actions.loadDictionaries())
 
 ReactDOM.render(

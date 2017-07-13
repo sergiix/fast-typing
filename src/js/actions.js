@@ -11,7 +11,8 @@ import {
   START_TYPING,
   UPDATE_TEXT,
   COMPARE_TEXT,
-  FINISH_TYPING
+  FINISH_TYPING,
+  REFRESH_TEXT
 } from './constants'
 import 'whatwg-fetch'
 
@@ -45,6 +46,8 @@ export function compareText() {
 
 export function startCountdownTimer() {
   return (dispatch, getState) => {
+    dispatch(finishTyping())
+
     let prevId = getState().typing.countdownTimer.id
 
     if (prevId)
@@ -120,5 +123,13 @@ export function loadDictionaryError(message) {
 export function randomDictionary() {
   return {
     type: RANDOM_DICTIONARY
+  }
+}
+
+export function refreshText() {
+  return (dispatch, getState) => {
+    dispatch(finishTyping())
+    dispatch(randomDictionary())
+    dispatch(initDictionaryText(getState().dictionaries.text))
   }
 }

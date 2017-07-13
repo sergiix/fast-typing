@@ -104,9 +104,9 @@ module.exports = {
                 join_vars: true,
             }
         }),
-        //new webpack.SourceMapDevToolPlugin({
+        // new webpack.SourceMapDevToolPlugin({
         //    filename: '[name].[hash:12].js.map',
-        //}),
+        // }),
         new Webpack2Polyfill(),
         new CopyWebpackPlugin([
             {
