@@ -22,12 +22,7 @@ export default function dictionariesReducer(state = {}, action) {
         isSuccess: true,
         isPending: false,
         isError: false,
-        // list: action.payload.dictionaries
-        list: {
-          0: [
-            'a b c'
-          ]
-        }
+        list: action.payload.dictionaries
       }
     }
 
