@@ -24,6 +24,11 @@ class Application extends Component {
       <div className="ui container">
         <div className="ui grid">
           <div className="row">
+            <div className="right floated right aligned three wide column">
+              <i className="github icon"></i> <a href="https://github.com/sergiix/fast-typing" target="_blank">Source code</a>
+            </div>
+          </div>
+          <div className="row">
             <div className="wide column">
               <div className="ui ignored big message">
                 <Words />
