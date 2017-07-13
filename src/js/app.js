@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom'
 import Application from './components/Application'
 import {Provider} from 'react-redux'
 import configureStore from './store/configureStore'
-import * as actions from './actions'
+import * as actions from 'actions'
 
 const store = configureStore()
 

@@ -12,7 +12,6 @@ class Words extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state.dictionaries)
   return {
     text: state.dictionaries.list[state.dictionaries.selectedDictionaryId][state.dictionaries.selectedDictionaryTextId],
   }

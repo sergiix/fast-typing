@@ -20,17 +20,20 @@ class Application extends Component {
     if (this.props.isDictionaryPending)
       return <DictionaryLoader />
 
-    return (<div className="ui grid">
-      <div className="row">
-        <div className="wide column">
-          <div className="ui ignored big attached message">
-            <Words />
+    return (
+      <div className="ui container">
+        <div className="ui grid">
+          <div className="row">
+            <div className="wide column">
+              <div className="ui ignored big attached message">
+                <Words />
+              </div>
+              <UserInput />
+    				</div>
           </div>
-          <CountdownTimer />
-          <UserInput />
-				</div>
+        </div>
       </div>
-    </div>)
+    )
   }
 }
 

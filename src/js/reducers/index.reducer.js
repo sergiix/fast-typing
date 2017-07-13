@@ -1,112 +1,105 @@
-import * as t from '../constants'
+import {
+  GENERATE_DICTIONARY_TEXT_INDEX,
+  INIT_DICTIONARY_TEXT,
+  START_TYPING,
+  FINISH_TYPING,
+  START_COUNTDOWN_TIMER,
+  COUNTDOWN_TIMER_TICK,
+  COUNTDOWN_TIMER_ENDED,
+  UPDATE_TEXT,
+  COMPARE_TEXT
+} from '../constants'
 
 export default function rootReducer(state = {}, action) {
   switch (action.type) {
-    case t.GENERATE_DICTIONARY_TEXT_INDEX: {
-      let countOfText = state.dictionaries[state.typing.selectedDictionaryIndex].length
-      let index = Math.random() * countOfText
-      state.typing.selectedDictionaryTextIndex = Math.floor(index)
-      return {...state}
-    }
-
-    case t.INIT_DICTIONARY_TEXT: {
+    case INIT_DICTIONARY_TEXT: {
       return {
         ...state,
-        typing: {
-          ...state.typing,
-          text: state.dictionaries[state.typing.selectedDictionaryIndex][state.typing.selectedDictionaryTextIndex],
-          index: 0,
-          fullValue: '',
-          partValue: '',
-          isCompleted: false,
-          countErrors: 0,
-          beginTime: Date.now(),
-          speed: 0
-        }
+        text: action.payload,
+        index: 0,
+        fullValue: '',
+        partValue: '',
+        isCompleted: false,
+        countErrors: 0,
+        beginTime: Date.now(),
+        speed: 0
       }
     }
 
-    case t.START_TYPING: {
+    case START_TYPING: {
       return {
         ...state,
-        typing: {
-          ...state.typing,
-          isStarted: true,
-          isTyping: true,
-          isFinished: false
-        }
+        isStarted: true,
+        isTyping: true,
+        isFinished: false
       }
     }
 
-    case t.FINISH_TYPING: {
+    case FINISH_TYPING: {
       return {
         ...state,
-        typing: {
-          ...state.typing,
-          isStarted: false,
-          isTyping: false,
-          isFinished: true
-        }
+        isStarted: false,
+        isTyping: false,
+        isFinished: true
       }
     }
 
-    case t.START_COUNTDOWN_TIMER: {
+    case START_COUNTDOWN_TIMER: {
       return {
         ...state,
         countdownTimer: {
           ...state.countdownTimer,
           started: true,
           ended: false,
-          left: state.countdownTimer.seconds
+          left: state.countdownTimer.seconds,
+          id: action.payload
         }
       }
     }
 
-    case t.COUNTDOWN_TIMER_TICK: {
-      return {
-        ...state,
-        typing: {
-          ...state.typing,
-          countdownTimer: {
-            ...state.typing.countdownTimer,
-            left: --state.typing.countdownTimer.left
-          }
-        }
-      }
-    }
-
-
-    case t.COUNTDOWN_TIMER_ENDED: {
+    case COUNTDOWN_TIMER_TICK: {
+      let left = --state.countdownTimer.left;
       return {
         ...state,
         countdownTimer: {
-          ...state.typing.countdownTimer,
+          ...state.countdownTimer,
+          left: left,
+          text: 'Start typing in ' + left + ' sec.'
+        }
+      }
+    }
+
+
+    case COUNTDOWN_TIMER_ENDED: {
+      return {
+        ...state,
+        countdownTimer: {
+          ...state.countdownTimer,
           started: false,
           ended: true
         }
       }
     }
 
-    case t.UPDATE_TEXT: {
-      if (!state.typing.isCompleted)
-        state.typing.partValue = action.payload;
+    case UPDATE_TEXT: {
+      if (!state.isCompleted)
+        state.partValue = action.payload;
       return {...state}
     }
 
-    case t.COMPARE_TEXT: {
-      if (state.typing.isCompleted)
+    case COMPARE_TEXT: {
+      if (state.isCompleted)
         return state;
 
-      let typing = state.typing
-      let fullValue = typing.fullValue
-      let partValue = typing.partValue
-      let text = typing.text
+      let fullValue = state.fullValue
+      let partValue = state.partValue
+      let text = state.text
       let typedText = fullValue + partValue
       let isError = text.indexOf(typedText) != 0
-      let countErrors = typing.countErrors
+      let countErrors = state.countErrors
       let endTime = Date.now()
-      let speed = typing.speed;
-      let duration = (endTime - typing.beginTime) / 1000
+      let speed = state.speed;
+      let duration = (endTime - state.beginTime) / 1000
 
       if (!isError)
         speed = typedText.length / duration *  60;
@@ -126,16 +119,13 @@ export default function rootReducer(state = {}, action) {
 
       return {
         ...state,
-        typing: {
-          ...state.typing,
-          isError: isError,
-          isCompleted: isCompleted,
-          fullValue: fullValue,
-          partValue: isCompleted ? '' : partValue,
-          duration: duration,
-          countErrors: countErrors,
-          speed: ~~speed
-        }
+        isError: isError,
+        isCompleted: isCompleted,
+        fullValue: fullValue,
+        partValue: isCompleted ? '' : partValue,
+        duration: duration,
+        countErrors: countErrors,
+        speed: ~~speed
       }
     }
 

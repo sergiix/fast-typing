@@ -37,10 +37,14 @@ export default function dictionariesReducer(state = {}, action) {
     }
 
     case RANDOM_DICTIONARY: {
+      let selectedDictionaryId = 0;
+      let selectedDictionaryTextId = Math.floor(Math.random() * state.list[0].length)
+      let text = state.list[selectedDictionaryId][selectedDictionaryTextId]
       return {
         ...state,
         selectedDictionaryId: 0,
-        selectedDictionaryTextId: Math.floor(Math.random() * state.list[0].length)
+        selectedDictionaryTextId: selectedDictionaryTextId,
+        text: text
       }
     }
 

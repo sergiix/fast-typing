@@ -1,22 +1,28 @@
 import {
   GENERATE_DICTIONARY_TEXT_INDEX,
   INIT_DICTIONARY_TEXT,
-  UPDATE_TEXT,
-  COMPARE_TEXT,
   START_COUNTDOWN_TIMER,
+  COUNTDOWN_TIMER_TICK,
+  COUNTDOWN_TIMER_ENDED,
   LOAD_DICTIONARIES_PENDING,
   LOAD_DICTIONARIES_SUCCESS,
   LOAD_DISTIONARIES_ERROR,
-  RANDOM_DICTIONARY
-} from '../constants'
+  RANDOM_DICTIONARY,
+  START_TYPING,
+  UPDATE_TEXT,
+  COMPARE_TEXT,
+  FINISH_TYPING
+} from './constants'
 import 'whatwg-fetch'
+
+let countdownTimerIntervalId = 0
 
 export function generateRandomText() {
   return { type: GENERATE_DICTIONARY_TEXT_INDEX }
 }
 
-export function initDictionaryText() {
-  return { type: INIT_DICTIONARY_TEXT }
+export function initDictionaryText(text) {
+  return { type: INIT_DICTIONARY_TEXT, payload: text }
 }
 
 export function updateText(text) {
@@ -38,7 +44,21 @@ export function compareText() {
 }
 
 export function startCountdownTimer() {
-  return { type: START_COUNTDOWN_TIMER }
+  return (dispatch, getState) => {
+    let prevId = getState().typing.countdownTimer.id
+
+    if (prevId)
+      clearInterval(prevId)
+
+    let id = setInterval(() => {
+      getState().typing.countdownTimer.left === 1
+        ? dispatch(countdownTimerEnd())
+        : dispatch(countdownTimerTick())
+    }, 1000);
+
+    dispatch({ type: START_COUNTDOWN_TIMER, payload: id });
+    dispatch(countdownTimerTick())
+  }
 }
 
 export function startTyping() {
@@ -53,15 +73,25 @@ export function countdownTimerTick() {
   return { type: COUNTDOWN_TIMER_TICK }
 }
 
+export function countdownTimerEnd() {
+  return (dispatch, getState) => {
+    clearInterval(getState().typing.countdownTimer.id)
+
+    dispatch({ type: COUNTDOWN_TIMER_ENDED })
+    dispatch(startTyping())
+  }
+}
+
 export function loadDictionaries() {
   return (dispatch, getState) => {
   	dispatch(pendingDictionaries())
 
-  	fetch('/dictionaries.json')
+  	fetch('dictionaries.json')
 		.then ( res => res.json())
     .then ( data => {
         dispatch(loadDictionarySuccess(data))
         dispatch(randomDictionary())
+        dispatch(initDictionaryText(getState().dictionaries.text))
       })
   		.catch( err => {
         dispatch(loadDictionaryError(err.message))

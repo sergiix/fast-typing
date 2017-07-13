@@ -9,7 +9,7 @@ const initialState = {
       isPending: false,
       isError: false,
       isSuccess: false,
-      list: [],
+      list: {},
       selectedDictionaryId: 0,
       selectedDictionaryTextId: 0
   },
@@ -26,8 +26,9 @@ const initialState = {
     countdownTimer: {
       started: false,
       ended: true,
-      seconds: 5,
-      left: 5
+      text: '',
+      seconds: 6,
+      left: 0
     }
   }
 };
@@ -42,6 +43,9 @@ export default function configureStore(state = initialState) {
   return createStore(
     reducer,
     state,
-    compose(applyMiddleware(thunk, /*logger*/), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()),
+    compose(
+      applyMiddleware(thunk, /*logger*/),
+      __DEV__ && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
   )
 }

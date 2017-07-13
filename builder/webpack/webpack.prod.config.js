@@ -90,7 +90,7 @@ module.exports = {
         new webpack.optimize.UglifyJsPlugin({
             beautify: false,
             comments: false,
-            sourceMap: true,
+            sourceMap: false,
             compress: {
                 warnings: false,
                 screw_ie8: true,
@@ -104,9 +104,9 @@ module.exports = {
                 join_vars: true,
             }
         }),
-        new webpack.SourceMapDevToolPlugin({
-            filename: '[name].[hash:12].js.map',
-        }),
+        //new webpack.SourceMapDevToolPlugin({
+        //    filename: '[name].[hash:12].js.map',
+        //}),
         new Webpack2Polyfill(),
         new CopyWebpackPlugin([
             {

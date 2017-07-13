@@ -6,21 +6,7 @@ class UserInputStatus extends Component {
   render () {
     return (
       <div>
-        <div>
-          <a className="ui fluid blue label">
-            Speed: {this.props.speed}
-          </a>
-        </div>
-        <br />
-        <div>
-          <a className="ui fluid blue label">
-            Errors: {this.props.countErrors}
-          </a>
-        </div>
-        <br />
-        <div>
-          <StartCountdownTimerButton />
-        </div>
+        <span title="Characters per minute">{this.props.speed}</span> / <span title="Errors" className="ui red">{this.props.countErrors}</span>
       </div>
     )
   }
