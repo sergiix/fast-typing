@@ -12,7 +12,8 @@ import {
   UPDATE_TEXT,
   COMPARE_TEXT,
   FINISH_TYPING,
-  REFRESH_TEXT
+  REFRESH_TEXT,
+  CLEAR_TYPING_STATISTICS
 } from './constants'
 import 'whatwg-fetch'
 
@@ -41,12 +42,18 @@ export function userInput(text) {
 }
 
 export function compareText() {
-  return { type: COMPARE_TEXT }
+  return (dispatch, getState) => {
+    dispatch({ type: COMPARE_TEXT })
+
+    if (getState().typing.isCompleted)
+      dispatch(finishTyping('Well done!'))
+  }
 }
 
 export function startCountdownTimer() {
   return (dispatch, getState) => {
     dispatch(finishTyping())
+    dispatch(clearTypingStatistics())
 
     let prevId = getState().typing.countdownTimer.id
 
@@ -68,18 +75,26 @@ export function startTyping() {
   return { type: START_TYPING }
 }
 
-export function finishTyping() {
-  return { type: FINISH_TYPING }
+export function finishTyping(congratulateMessage = '') {
+  return (dispatch, getState) => {
+    dispatch(initDictionaryText(getState().dictionaries.text))
+    dispatch({ type: FINISH_TYPING, payload: congratulateMessage })
+  }
 }
 
 export function countdownTimerTick() {
   return { type: COUNTDOWN_TIMER_TICK }
 }
 
-export function countdownTimerEnd() {
+export function cancelCountdownTimer() {
   return (dispatch, getState) => {
     clearInterval(getState().typing.countdownTimer.id)
+  }
+}
 
+export function countdownTimerEnd() {
+  return (dispatch, getState) => {
+    dispatch(cancelCountdownTimer())
     dispatch({ type: COUNTDOWN_TIMER_ENDED })
     dispatch(startTyping())
   }
@@ -90,8 +105,8 @@ export function loadDictionaries() {
   	dispatch(pendingDictionaries())
 
   	fetch('dictionaries.json')
-		.then ( res => res.json())
-    .then ( data => {
+		  .then ( res => res.json())
+      .then ( data => {
         dispatch(loadDictionarySuccess(data))
         dispatch(randomDictionary())
         dispatch(initDictionaryText(getState().dictionaries.text))
@@ -129,7 +144,15 @@ export function randomDictionary() {
 export function refreshText() {
   return (dispatch, getState) => {
     dispatch(finishTyping())
+    dispatch(cancelCountdownTimer())
+    dispatch(clearTypingStatistics())
     dispatch(randomDictionary())
     dispatch(initDictionaryText(getState().dictionaries.text))
+  }
+}
+
+export function clearTypingStatistics() {
+  return {
+    type: CLEAR_TYPING_STATISTICS
   }
 }

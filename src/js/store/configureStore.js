@@ -25,6 +25,7 @@ const initialState = {
     isFinished: true,
     countErrors: 0,
     speed: 0,
+    waitingText: '',
     countdownTimer: {
       started: false,
       ended: true,

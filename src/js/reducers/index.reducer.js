@@ -7,7 +7,8 @@ import {
   COUNTDOWN_TIMER_TICK,
   COUNTDOWN_TIMER_ENDED,
   UPDATE_TEXT,
-  COMPARE_TEXT
+  COMPARE_TEXT,
+  CLEAR_TYPING_STATISTICS
 } from '../constants'
 
 export default function rootReducer(state = {}, action) {
@@ -31,6 +32,7 @@ export default function rootReducer(state = {}, action) {
         isCompleted: false,
         countErrors: 0,
         speed: 0,
+        wordIndex: 0,
         beginTime: Date.now()
       }
     }
@@ -44,14 +46,21 @@ export default function rootReducer(state = {}, action) {
         isError: false,
         isCompleted: false,
         fullValue: 0,
-        partValue: '',
+        partValue: action.payload,
         duration: 0,
-        countErrors: 0,
-        speed: 0,
+        wordIndex: 0,
         countdownTimer: {
           ...state.countdownTimer,
           text: ''
         }
+      }
+    }
+
+    case CLEAR_TYPING_STATISTICS: {
+      return {
+        ...state,
+        countErrors: 0,
+        speed: 0
       }
     }
 
@@ -72,10 +81,10 @@ export default function rootReducer(state = {}, action) {
       let left = --state.countdownTimer.left;
       return {
         ...state,
+        partValue: 'Start typing in ' + left + ' sec.',
         countdownTimer: {
           ...state.countdownTimer,
-          left: left,
-          text: 'Start typing in ' + left + ' sec.'
+          left
         }
       }
     }
@@ -111,6 +120,7 @@ export default function rootReducer(state = {}, action) {
       let endTime = Date.now()
       let speed = state.speed;
       let duration = (endTime - state.beginTime) / 1000
+      let wordIndex = state.wordIndex
 
       if (!isError)
         speed = typedText.length / duration *  60;
@@ -118,6 +128,7 @@ export default function rootReducer(state = {}, action) {
       if (!isError && partValue[partValue.length - 1] === ' ') {
         fullValue += partValue;
         partValue = '';
+        wordIndex++;
       }
 
       let isCompleted = !isError && text.length == typedText.length
@@ -130,13 +141,14 @@ export default function rootReducer(state = {}, action) {
 
       return {
         ...state,
-        isError: isError,
-        isCompleted: isCompleted,
-        fullValue: fullValue,
+        isError,
+        isCompleted,
+        fullValue,
         partValue: isCompleted ? '' : partValue,
-        duration: duration,
-        countErrors: countErrors,
-        speed: ~~speed
+        duration,
+        countErrors,
+        speed: ~~speed,
+        wordIndex
       }
     }
 

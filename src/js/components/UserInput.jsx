@@ -31,18 +31,18 @@ class UserInput extends React.Component {
             <div className={classes}>
               {this.props.isTyping
                 ? <input type="text" ref={::this.initInput} value="" autoFocus value={this.props.partValue} onChange={::this.onChange} />
-                : <input type="text" disabled="disabled" ref="input" value={this.props.waitingText} />
+                : <input type="text" disabled="disabled" ref="input" value={this.props.partValue} />
               }
-              <a className="ui basic button" data-tooltip="Your statistics: CPM / Errors" data-position="bottom right">
+              <a className="ui basic button" data-tooltip="Your statistics: CPM / Errors" data-position="top center">
                 <UserInputStatus />
               </a>
             </div>
           </div>
           <div className="four wide column">
             <div className="ui big fluid buttons">
-              <button className="ui button" onClick={::this.props.actions.startCountdownTimer} data-tooltip="Press for typing" data-position="top left">Start</button>
+              <button className="ui button" onClick={::this.props.actions.startCountdownTimer} data-tooltip="Press for typing" data-position="top center">Start</button>
               <div className="or"></div>
-              <button className="ui button" onClick={::this.props.actions.refreshText} data-tooltip="Refresh text" data-position="top right">
+              <button className="ui button" onClick={::this.props.actions.refreshText} data-tooltip="Refresh text" data-position="top center">
                 <i className="refresh icon"></i>
               </button>
             </div>
@@ -58,10 +58,9 @@ function mapStateToProps(state) {
     isError: state.typing.isError,
     partValue: state.typing.partValue,
     isTyping: state.typing.isTyping,
-    isFinished: state.typing.isFinished,
+    isCompleted: state.typing.isCompleted,
     isCountdownTimerStarted: state.typing.countdownTimer.started,
-    countdownTimerLeft: state.typing.countdownTimer.left,
-    waitingText: state.typing.countdownTimer.text
+    countdownTimerLeft: state.typing.countdownTimer.left
   }
 }
 
