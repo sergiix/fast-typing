@@ -33,7 +33,7 @@ export default function historyReducer(state = initialState, action) {
       state.data.push([action.time, action.speed])
       return {
         ...state,
-        lastHistoryValue: [action.time, action.speed]
+        update: !state.update
       }
     }
 

@@ -61,9 +61,6 @@
     "author": "Serhii Zhdaniuk",
     "license": "MIT",
     "dependencies": {
-        "c3": "0.4.14",
-        "c3-react": "0.1.13",
-        "d3": "4.9.1",
         "highcharts": "5.0.12",
         "react": "^15.6.1",
         "react-classset": "0.0.2",

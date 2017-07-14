@@ -6,7 +6,7 @@ function getVendorLibraries () {
 		'react-classset',
 		'redux-thunk',
 		'whatwg-fetch',
-		'd3'
+		'highcharts'
 	];
 }
 module.exports.getEntry = function (params) {

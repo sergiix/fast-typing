@@ -9,18 +9,7 @@ class Chart extends Component {
   componentDidMount() {
     this.chart = Highcharts.chart(this.refs.container, {
         chart: {
-            zoomType: 'x',
-            events: {
-              load: function () {
-                // set up the updating of the chart each second
-                var series = this.series[0];
-                // setInterval(function () {
-                //     var x = (new Date()).getTime(), // current time
-                //         y = Math.round(Math.random() * 100);
-                //     series.addPoint([x, y], true, true);
-                // }, 1000);
-              }
-            }
+            zoomType: 'x'
         },
         title: {
             text: 'History'
@@ -34,7 +23,7 @@ class Chart extends Component {
             }
         },
         legend: {
-            enabled: false
+            enabled: true
         },
         plotOptions: {
             area: {
@@ -73,7 +62,7 @@ class Chart extends Component {
 
   render () {
     if (this.chart)
-      this.chart.series[0].addPoint(this.props.lastHistoryValue, true, true);
+      this.chart.series[0].addPoint(this.props.data[this.props.data.length - 1]);
 
     return (
       <div ref="container" className="chart-container"></div>
@@ -84,7 +73,7 @@ class Chart extends Component {
 function mapStateToProps(state) {
   return {
       data: state.history.data,
-      lastHistoryValue: state.history.lastHistoryValue
+      update: state.history.update
   }
 }
 
