@@ -9,6 +9,7 @@ import TypingStatistics from './TypingStatistics'
 import * as actions from '../actions'
 import CountdownTimer from './CountdownTimer'
 import DictionaryLoader from './DictionaryLoader'
+import Chart from './Chart'
 
 class Application extends Component {
 
@@ -35,6 +36,11 @@ class Application extends Component {
               </div>
               <UserInput />
     				</div>
+          </div>
+          <div className="row">
+            <div className="wide column">
+              <Chart />
+            </div>
           </div>
         </div>
       </div>

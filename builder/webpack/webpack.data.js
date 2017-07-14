@@ -5,7 +5,8 @@ function getVendorLibraries () {
 		'redux',
 		'react-classset',
 		'redux-thunk',
-		'whatwg-fetch'
+		'whatwg-fetch',
+		'd3'
 	];
 }
 module.exports.getEntry = function (params) {

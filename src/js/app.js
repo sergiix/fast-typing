@@ -11,6 +11,7 @@ import * as actions from 'actions'
 const store = configureStore()
 
 store.dispatch(actions.loadDictionaries())
+store.dispatch(actions.loadHistory())
 
 ReactDOM.render(
 	<Provider store={store}>

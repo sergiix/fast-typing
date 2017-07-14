@@ -13,7 +13,10 @@ import {
   COMPARE_TEXT,
   FINISH_TYPING,
   REFRESH_TEXT,
-  CLEAR_TYPING_STATISTICS
+  CLEAR_TYPING_STATISTICS,
+  LOAD_HISTORY,
+  ADD_HISTORY,
+  SAVE_HISTORY
 } from './constants'
 import 'whatwg-fetch'
 
@@ -45,8 +48,10 @@ export function compareText() {
   return (dispatch, getState) => {
     dispatch({ type: COMPARE_TEXT })
 
-    if (getState().typing.isCompleted)
+    if (getState().typing.isCompleted) {
       dispatch(finishTyping('Well done!'))
+      dispatch(addHistory(+new Date(), getState().typing.speed))
+    }
   }
 }
 
@@ -154,5 +159,24 @@ export function refreshText() {
 export function clearTypingStatistics() {
   return {
     type: CLEAR_TYPING_STATISTICS
+  }
+}
+
+export function loadHistory() {
+  return {
+    type: LOAD_HISTORY
+  }
+}
+
+export function addHistory(time, speed) {
+  return dispatch => {
+    dispatch({type: ADD_HISTORY, time, speed})
+    dispatch(saveHistory())
+  }
+}
+
+export function saveHistory(time, speed) {
+  return {
+    type: SAVE_HISTORY,
   }
 }

@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import rootReducer from '../reducers/index.reducer'
 import dictionariesReducer from '../reducers/dictionaries.reducer'
+import historyReducer from '../reducers/history.reducer'
 import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
 
@@ -34,6 +35,11 @@ const initialState = {
       seconds: 6,
       left: 0
     }
+  },
+  history: {
+    key: 'history',
+    data: [],
+    lastHistoryValue: null
   }
 };
 
@@ -41,7 +47,8 @@ export default function configureStore(state = initialState) {
   const logger = createLogger();
   const reducer = combineReducers({
     typing: rootReducer,
-    dictionaries: dictionariesReducer
+    dictionaries: dictionariesReducer,
+    history: historyReducer
   })
 
   if (__DEV__) {

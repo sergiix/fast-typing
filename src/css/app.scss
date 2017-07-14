@@ -13,3 +13,19 @@
 .word-current {
   color: #6079dc;
 }
+
+.chart-container {
+    position: relative;
+    height: 0;
+    width: 100%;
+    padding: 0;
+    /* padding-bottom will be overwritten by JavaScript later */
+    padding-bottom: 100%;
+}
+.chart-container > svg {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+}

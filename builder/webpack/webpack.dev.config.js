@@ -33,6 +33,11 @@ const extractSass = new ExtractTextPlugin({
     filename: 'styles.[contenthash:12].css',
     disable: IS_DEVELOPMENT
 });
+const extractCss = new ExtractTextPlugin({
+    filename: '[name].[contenthash:12].css',
+    disable: IS_DEVELOPMENT
+});
+
 
 module.exports = {
     target: 'web',
@@ -66,6 +71,7 @@ module.exports = {
         }),
         new webpack.HotModuleReplacementPlugin(),
         extractSass,
+        extractCss,
         new Webpack2Polyfill(),
     ],
     module: {
@@ -121,8 +127,7 @@ module.exports = {
         }, {
             test: /\.css$/,
             exclude: /node_modules/,
-            //use: ['css-loader', 'postcss-loader', 'sass-loader']
-            use: extractSass.extract({
+            use: extractCss.extract({
                 //use: ['css-loader?sourceMap', 'sass-loader?sourceMap']
                 use: [{
                     loader: "css-loader"
