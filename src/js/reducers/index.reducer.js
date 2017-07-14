@@ -111,6 +111,7 @@ export default function rootReducer(state = {}, action) {
       if (state.isCompleted)
         return state;
 
+      let isPreviousError = state.isError
       let fullValue = state.fullValue
       let partValue = state.partValue
       let text = state.text
@@ -133,7 +134,7 @@ export default function rootReducer(state = {}, action) {
 
       let isCompleted = !isError && text.length == typedText.length
 
-      if (isError)
+      if (isError && !isPreviousError)
         countErrors++
 
       if (isCompleted)

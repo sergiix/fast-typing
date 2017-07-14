@@ -33,16 +33,16 @@ class UserInput extends React.Component {
                 ? <input type="text" ref={::this.initInput} value="" autoFocus value={this.props.partValue} onChange={::this.onChange} />
                 : <input type="text" disabled="disabled" ref="input" value={this.props.partValue} />
               }
-              <a className="ui basic button" data-tooltip="Your statistics: CPM / Errors" data-position="top center">
+              <a className="ui basic button" data-tooltip="Your statistics: CPM / Errors" data-position="bottom center">
                 <UserInputStatus />
               </a>
             </div>
           </div>
           <div className="four wide column">
             <div className="ui big fluid buttons">
-              <button className="ui button" onClick={::this.props.actions.startCountdownTimer} data-tooltip="Press for typing" data-position="top center">Start</button>
+              <button className="ui button" onClick={::this.props.actions.startCountdownTimer} data-tooltip="Press for typing" data-position="bottom center">Start</button>
               <div className="or"></div>
-              <button className="ui button" onClick={::this.props.actions.refreshText} data-tooltip="Refresh text" data-position="top center">
+              <button className="ui button" onClick={::this.props.actions.refreshText} data-tooltip="Refresh text" data-position="bottom center">
                 <i className="refresh icon"></i>
               </button>
             </div>
