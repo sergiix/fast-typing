@@ -50,7 +50,7 @@ export function compareText() {
 
     if (getState().typing.isCompleted) {
       dispatch(finishTyping('Well done!'))
-      dispatch(addHistory(+new Date(), getState().typing.speed))
+      dispatch(addHistory(Date.now(), getState().typing.speed))
     }
   }
 }

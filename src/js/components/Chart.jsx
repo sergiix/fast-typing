@@ -7,6 +7,11 @@ require('highcharts/modules/exporting')(Highcharts);
 
 class Chart extends Component {
   componentDidMount() {
+    Highcharts.setOptions({
+      global: {
+        useUTC: false
+      }
+    });
     this.chart = Highcharts.chart(this.refs.container, {
         chart: {
             zoomType: 'x'
@@ -14,6 +19,7 @@ class Chart extends Component {
         title: {
             text: 'History'
         },
+
         xAxis: {
             type: 'datetime'
         },
@@ -23,7 +29,13 @@ class Chart extends Component {
             }
         },
         legend: {
-            enabled: true
+            layout: 'vertical',
+            align: 'left',
+            x: 120,
+            verticalAlign: 'top',
+            y: 10,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
         },
         plotOptions: {
             area: {
@@ -52,11 +64,14 @@ class Chart extends Component {
             }
         },
 
-        series: [{
+        series: [
+          {
             type: 'area',
             name: 'Speed',
-            data: this.props.data
-        }]
+            data: this.props.data,
+            showInLegend: false
+          }
+        ]
     });
   }
 
