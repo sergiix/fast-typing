@@ -11,7 +11,12 @@ class Words extends Component {
           this.props.text
             .split(' ')
             .map((word, i) => {
-              let className = i < wordIndex ? 'word-typed' : i == wordIndex ? 'word-current' : '';
+              let className = '';
+              if (i < wordIndex)
+                className = 'word-typed';
+
+              if (i == wordIndex)
+                className = this.props.isError ? 'word-error' : 'word-current'
 
               return [<span className={className}>{word}</span>, ' ']
             })
@@ -24,7 +29,8 @@ class Words extends Component {
 function mapStateToProps(state) {
   return {
     text: state.dictionaries.list[state.dictionaries.selectedDictionaryId][state.dictionaries.selectedDictionaryTextId],
-    wordIndex: state.typing.wordIndex
+    wordIndex: state.typing.wordIndex,
+    isError: state.typing.isError
   }
 }
 
